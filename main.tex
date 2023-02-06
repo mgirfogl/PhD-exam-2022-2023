@@ -1,0 +1,66 @@
+\documentclass{article}
+\usepackage{amssymb, amsmath}
+\usepackage{color}
+\newcommand{\GS}[1]{{\color{red} GS: #1}}
+
+\begin{document}
+
+%\GS{In alcuni punti gli darei la possibilità di essere un pelo più discorsivi e di spiegare di più i procedimenti ed i metodi}
+
+
+\begin{enumerate}
+\item
+Consider the function:
+\begin{equation}
+f(x) = \sin(\pi x) + \cos(\pi x), \quad x \in \left[\dfrac{1}{2}, \dfrac{3}{2}\right].
+\end{equation}
+\begin{itemize}
+\item[a)] Compute the coefficients of the polynomial interpolator of degree 2 of $f$, $P(x) = ax^2 + bx + c$, on the points $x_0 = \dfrac{1}{2}$, $x_1 = \dfrac{3}{4}$ and $x_2 = \dfrac{3}{2}$. Solve the associated linear system $\underline{\underline{A}}~\underline{y} = \underline{q}$ by using $\underline{\underline{A}}^{-1}$.
+%\GS{come gli facciamo risolvere il sistema lineare associato al problema di interpolazione?}
+\item[b)] Compute the 1-norm condition number of $\underline{\underline{A}}$. %\GS{specificherei rispetto a che norma, se usiamo $L^2$ possono passare dagli autovalori}
+\item[c)] Compute the solution of $f(x) = 0$, correct to 2 decimal places, by using the Newton method. Choose $x = 1$ as starting point. %\GS{Diamo uno starting point per cui siamo sicuri che non devono fare troppe iterazioni?}
+\end{itemize}
+\item
+Consider the Cauchy problem:
+\begin{equation}\label{Cauchy}
+\begin{cases}
+y'(t) = f(t,y(t)), \quad t \in [t_0, T], \\
+y(t_0) = y_0.
+\end{cases}
+\end{equation}
+\begin{itemize}
+\item[a)] Write a pseudocode that uses the forward Euler method with stepsize $\Delta t$ to solve \eqref{Cauchy}. %, \GS{specifichiamo quale metodo di Eulero?}
+\item[b)] Consider the following Cauchy problem:%Apply three iterations of the forward Euler method with $\Delta t = 0.1$ to the following Cauchy problem:
+\begin{equation}\label{Cauchy2}
+\begin{cases}
+y'(t) = \lambda y(t), \quad t \in [t_0, T], \\
+y(0) = y_0,
+\end{cases}
+\end{equation}
+for $\lambda \in \mathcal{R}$. Discuss briefly the stability of the forward Euler method.
+%\GS{se mettiamo $y'(t) = \lambda y(t)$ e gli facciamo fare anche un discorsino sulla scelta di $\Delta t$ per avere una soluzione stabile con Eulero all'avanti?}
+\item[c)] Set $\lambda = -1$, $t_0 = 0$, $T=0.3$, $y_0 = 1$, and $\Delta t = 0.1$. Let $Y_n$, $n=0,\dots,3$, the resulting Forward Euler solution starting from $Y_0=y_0$. Compute the final time error $|y(T) - Y_3|$.
+\item[d)] The forward Euler approximation of \eqref{Cauchy} obeys the error bound $|y(t_n)-Y_n|\le \frac{M_2\Delta t}{2L}(e^{L(t_n-t_0)}-1)$, with $M_2=\max_{t\in [t_0,T]} |y''(t)|$, $L$ the Lipschitz constant of $f$ with respect to $y$,  and  $t_n=t_0+n\Delta t$, for $n=0,1,\dots,\lfloor(T-t_0)/\Delta t\rfloor$. Explain why this bound is of limited value in providing an estimation of the true numerical error using problem \eqref{Cauchy2} with $\lambda<0$ as an example. 
+\end{itemize} 
+\item
+Consider the unsteady incompressible Navier-Stokes equations:
+\begin{equation}\label{NS}
+\begin{cases}
+\dfrac{\partial \mathbf{u}}{\partial t} + \mathbf{u} \cdot \nabla \mathbf{u} = -\nabla p + \dfrac{1}{Re} \Delta \mathbf{u} &  \quad \text{in}~\Omega \times \left[t_0, T\right],  \\
+\nabla \cdot \mathbf{u} = 0 &  \quad \text{in}~\Omega \times \left[t_0, T\right], \\
+\mathbf{u}(\mathbf{x}, t) = \mathbf{0} & \quad \text{on}~\partial\Omega \times \left[t_0, T\right], \\
+\mathbf{u}(t_0,\mathbf{x}) = \mathbf{u}_0(\mathbf{x}) &  \quad \text{on}~\partial\Omega \times \{t_0\}.
+\end{cases}
+\end{equation}
+\begin{itemize}
+\item[a)] Choose a discretization method for the space approximation and derive a semi-discrete formulation of the problem \eqref{NS}. 
+
+%\GS{Questi ultimi punti non mi convincono troppo, sono un po' lontani dalla analisi numerica classica, non vorrei che si incasinano, chiederei anche un parere a Gian}
+
+% (for the time discretization consider a Crank-Nicolson method).
+%\item[b)] Introduce and discuss the Chorin's projection method for the treatment of the velocity-pressure coupling. %...
+\item[b)] Suppose that $Re >> 1$. Provides a brief overview of the main turbulence modeling approaches by highlighting the advantages and disadvantages. 
+\end{itemize}
+\end{enumerate}
+
+\end{document}

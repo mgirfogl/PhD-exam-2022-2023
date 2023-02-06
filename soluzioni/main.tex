@@ -1,0 +1,153 @@
+\documentclass{article}
+\usepackage{amssymb, amsmath}
+\usepackage{color}
+\usepackage{verbatim}
+\newcommand{\GS}[1]{{\color{red} GS: #1}}
+
+\begin{document}
+
+\begin{enumerate}
+\item
+\begin{itemize}
+\item[a)] The linear system to be solved is $\underline{\underline{A}}~\underline{y} = \underline{q}$ where 
+
+\begin{equation*}
+\underline{\underline{A}} = 
+\begin{bmatrix}
+\dfrac{1}{4} & \dfrac{1}{2} & 1\\\\
+\dfrac{9}{16} & \dfrac{3}{4} & 1\\\\
+\dfrac{9}{4} & \dfrac{3}{2} & 1%\\\\
+\end{bmatrix}, \quad
+\underline{y} = 
+\begin{bmatrix}
+a & b & c
+\end{bmatrix}^T, \quad
+\underline{q} = 
+\begin{bmatrix}
+1 & 0 & -1
+\end{bmatrix}^T.
+\end{equation*}
+
+The inverse matrix $\underline{\underline{A}}^{-1}$ is computed as follows:
+\begin{equation*}
+\underline{\underline{A}}^{-1} = 
+\dfrac{1}{det(\underline{\underline{A}})} (adj(\underline{\underline{A}})) = 
+\begin{bmatrix}
+4 & -\dfrac{16}{3} & \dfrac{4}{3}\\\\
+-9 & \dfrac{32}{3} & -\dfrac{5}{3}\\\\
+\dfrac{9}{2} & -4 & \dfrac{1}{2}%\\\\
+\end{bmatrix}
+\end{equation*}
+
+Finally the solution of the linear system is given by 
+\begin{equation*}
+\underline{y} = \underline{\underline{A}}^{-1} \underline{q} = 
+\begin{bmatrix}
+\dfrac{8}{3} & \dfrac{22}{3} & 4
+\end{bmatrix}^T
+\end{equation*}
+
+\item[b)] The 1-norm condition number $K(\underline{\underline{A}})$ can be computed as follows:
+\begin{equation*}
+K(\underline{\underline{A}}) = ||\underline{\underline{A}}||_1 ||\underline{\underline{A}}^{-1}||_1 = 61.25.  
+\end{equation*}
+
+\item[c)] Let $x_0 = 1$. By applying the Newton method one obtains
+\begin{equation*}
+x_1 = x_0 - \dfrac{f(x_0)}{f'(x_0)} = 0.68169...\\
+\end{equation*}
+\begin{equation*}
+x_2 = x_1 - \dfrac{f(x_1)}{f'(x_1)} = 0.75106...\\
+\end{equation*}
+\begin{equation*}
+x_3 = x_2 - \dfrac{f(x_2)}{f'(x_2)} = 0.75\\
+\end{equation*}
+
+\end{itemize}
+\item
+
+\begin{itemize}
+\item[a)] 
+\small
+\begin{verbatim}
+1. Start
+
+2. Define function f(t,y(t))
+
+3. Read values of t0 and y0, number of steps (n) and calculation point (tn)
+   
+4. Calculate step size: dt = (T - t0)/n
+
+5. Set i=0
+
+6. Loop 
+      
+      yn = y0 + dt *  f(t0 + i*dt, y0)
+      
+      y0 = yn
+      
+      i = i + 1
+
+   While i < n
+
+7. Stop
+\end{verbatim}
+
+\item[b)] The analytical solution of the problem at hand is given by $y(t) = y_0 e^{\lambda t}$. If $\lambda > 0$ the exact solution grows exponentially. We could not expect that the discrete scheme remains bounded, and it is not even the case to discuss stability.
+
+On the other hand, if $\lambda < 0$, the analytical solution decays exponentially. By applying the forward Euler method to the problem at hand, we get
+\begin{equation*}
+Y_{n+1} = Y_{n} + \lambda Y_n \Delta t = (1 + \lambda \Delta t) Y_n, \quad n = 0, 1, \dots \Rightarrow Y_{n} = Y_0 (1 + \lambda \Delta t)^n.
+\end{equation*}
+The growth-decay factor for the discrete scheme is $G = 1 + \lambda \Delta t$. If this factor has magnitude $|G| < 1$ we have decay. Since $\lambda$ is negative, we always have $G < 1$ but to have $G > -1$ we need to satisfy the constraint $\Delta t < \dfrac{2}{|\lambda|}$.
+
+\item[c)] By applying the forward Euler method starting from $Y_0 = y_0$ we obtain
+\begin{equation*}
+Y_1 = Y_0 + \lambda Y_0 \Delta t = 1 - 1 \cdot 1 \cdot 0.1 = 0.9;
+\end{equation*}
+\begin{equation*}
+Y_2 = Y_1 + \lambda Y_1 \Delta t = 0.9 - 1 \cdot 0.9 \cdot 0.1 = 0.81;
+\end{equation*}
+\begin{equation*}
+Y_3 = Y_2 + \lambda Y_2 \Delta t = 0.81 - 1 \cdot 0.81 \cdot 0.1 = 0.729.
+\end{equation*}
+
+The analytical solution evaluated for $T = 0.3$ is
+\begin{equation*}
+y(T) = y_0 e^{\lambda T} = 1 \cdot e^{-1 \cdot 0.3} = 0.741.
+\end{equation*}  
+
+Finally we have $|y(T) - Y_3| = 1.2 \cdot 10^{-2}$.
+
+\item[d)] The problem at hand becomes ``stiff" for large $|\lambda|$. Take, for instance, $t_0$ and $y_0$ as in point c),  $\lambda = -10^2$ and $T = 1$. Then $L = 10^2$, $M_2 = \lambda^2 = 10^4$, and the bound becomes, at final time,
+\begin{equation*}
+\frac{M_2\Delta t}{2L}(e^{LT}-1) \approx 1.34 \cdot 10^{45} \Delta t
+\end{equation*}
+On the other hand, the true error at final time is:
+\begin{equation*}
+|Y_n - y(T)| = |(1 - 100 \Delta t)^n - e^{-100}| \approx |(1 - 100 \Delta t)^n|
+\end{equation*}
+Already with $\Delta t = 200^{-1}$ we have $\approx 3.7 \cdot 10^{-44}$.
+What happened? The problem is with the insensitivity of the Lipschitz constant and exposes the growing stiffness of the problem as $|\lambda|$ grows.
+
+%The forward Euler approximation of \eqref{Cauchy} obeys the error bound $|y(t_n)-Y_n|\le \frac{M_2\Delta t}{2L}(e^{L(t_n-t_0)}-1)$, with $M_2=\max_{t\in [t_0,T]} |y''(t)|$, $L$ the Lipschitz constant of $f$ with respect to $y$,  and  $t_n=t_0+n\Delta t$, for $n=0,1,\dots,\lfloor(T-t_0)/\Delta t\rfloor$. Explain why this bound is of limited value in providing an estimation of the true numerical error using problem \eqref{Cauchy2} with $\lambda<0$ as an example. 
+\end{itemize} 
+\item
+\begin{itemize}
+\item[a)] Let choose the Finite Volume Method. We partition the computational domain $\Omega$ into control volumes $\Omega_i$, with $i = 1, \dots, N_{c}$. Let \textbf{A}$_j$ be the surface vector of each face of the control volume. For each control volume $\Omega_i$, we obtain:
+
+\begin{equation*}
+\begin{cases}
+\dfrac{\partial \mathbf{u}_i}{\partial t} +  \sum_j^{} \varphi_j \mathbf{u}_{i,j} - \dfrac{1}{Re} \sum_j^{} (\nabla\mathbf{u}_i)_j \cdot \textbf{A}_j + \sum_j^{} p_{i,j} \textbf{A}_j  = 0, \\
+\sum_j^{} \mathbf{u}_{i,j} \cdot \textbf{A}_j = 0,
+\end{cases}
+\end{equation*}
+
+where $\mathbf{u}_i$ is the average velocity in control volume $\Omega_i$, $\mathbf{u}_{i,j}$ and $p_{i,j}$ the velocity and pressure
+associated to the centroid of face $j$ normalized by the volume of $\Omega_i$, and $\varphi_j = \mathbf{u}_j \cdot \textbf{A}_j$.
+
+\item[b)] The Direct Numerical Simulation (DNS) of the Navier-Stokes Equations (NSE) computes the evolution of all the significant flow structures by resolving them with a properly refined mesh. Unfortunately, when the convection dominates the dynamics, i.e. the Reynolds number is ``large", this requires very fine meshes, making DNS computationally unaffordable for practical purposes. Therefore, for many realistic problems the simulation of turbulent flows is performed by using different models. The NSE can be properly averaged (in different ways, quite often in time), leading to the so-called Reynolds-Averaged Navier-Stokes equations (RANS), or filtered (usually in space), leading to Large Eddy Simulation (LES) techniques.
+\end{itemize}
+\end{enumerate}
+
+\end{document}
